@@ -1,133 +1,144 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
+#include "unicode.h"
 
+// Layers
 enum planck_layers {
-    _BASE,
+    _QWERTY,
+    _NUMPAD,
+    _SYMBOLS,
+    _GREEK,
+    _EMOJI,
     _LOWER,
     _RAISE,
-    _ADJUST,
+    _ADJUST
 };
 
-enum unicode_names {
-    AE_L,
-    AE_U,
-    OE_L,
-    OE_U,
-    AA_L,
-    AA_U,
-    U_HALF,
-    U_SQRD,
-    U_EUR,
-    U_REG,
-    U_TM,
-    U_ALPHA,
-    U_SIGMA,
-    U_DIFF,
-    U_INT,
-    U_GRAD,
-    U_MULT,
-    U_ARROW,
-    U_CHI,
-    U_CR,
-    U_BLOCK,
-    U_BETA,
-    U_END,
-    U_EMD,
-    U_DEG,
-    U_BULLET,
-    U_NOT,
-    U_GBP
-};
-
-const uint32_t PROGMEM unicode_map[] = {
-    [AE_L]     = L'æ',
-    [AE_U]     = L'Æ',
-    [OE_L]     = L'ø',
-    [OE_U]     = L'Ø',
-    [AA_L]     = L'å',
-    [AA_U]     = L'Å',
-    [U_HALF]   = L'½',
-    [U_SQRD]   = L'²',
-    [U_EUR]    = L'€',
-    [U_REG]    = L'®',
-    [U_TM]     = L'™',
-    [U_ALPHA]  = L'ɑ',
-    [U_SIGMA]  = L'σ',
-    [U_DIFF]   = L'∂',
-    [U_INT]    = L'∫',
-    [U_GRAD]   = L'∇',
-    [U_MULT]   = L'×',
-    [U_ARROW]  = L'→',
-    [U_CHI]    = L'χ',
-    [U_CR]     = L'©',
-    [U_BLOCK]  = L'█',
-    [U_BETA]   = L'β',
-    [U_END]    = L'–',
-    [U_EMD]    = L'—',
-    [U_DEG]    = L'°',
-    [U_BULLET] = L'•',
-    [U_NOT]    = L'¬',
-    [U_GBP]    = L'£'
-};
-
-// TODO: https://emacs.stackexchange.com/questions/55994/unicode-input-from-keyboard-qmk-to-emacs
-#define KC_AE XP(AE_L, AE_U)
-#define KC_OE XP(OE_L, OE_U)
-#define KC_AA XP(AA_L, AA_U)
-
-// Layer modifiers
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define KC_EXIT    TO(_QWERTY)
+#define KC_LOWER   MO(_LOWER)
+#define KC_RAISE   MO(_RAISE)
+#define KC_NUMPAD  TT(_NUMPAD)
+#define KC_GREEK   TT(_GREEK)
+#define KC_SYMBOLS TT(_SYMBOLS)
+#define KC_EMOJI   TT(_EMOJI)
 
 // Mod-tap keys
-#define C_ESC LCTL_T(KC_ESC)
-#define LS_CAPS LSFT_T(KC_CAPS)
-#define RS_ENT RSFT_T(KC_ENT)
-#define C_BSPC LCTL(KC_BSPC)
-#define C_DEL LCTL(KC_DEL)
+#define KC_CESC  LCTL_T(KC_ESC)
+#define KC_SCAPS LSFT_T(KC_CAPS)
+#define KC_CQUOT RCTL_T(KC_QUOT)
+#define KC_SENT  RSFT_T(KC_ENT)
 
-// Combined modifiers
-#define CTL_ALT LCA(KC_NO)
+// Combined keys
+#define KC_C_BSPC LCTL(KC_BSPC)
+#define KC_C_DEL  LCTL(KC_DEL)
+#define KC_C_A    LCTL(KC_A)
+#define KC_C_S    LCTL(KC_S)
+#define KC_C_Z    LCTL(KC_Z)
+#define KC_C_X    LCTL(KC_X)
+#define KC_C_C    LCTL(KC_C)
+#define KC_C_V    LCTL(KC_V)
+#define KC_C_ALT  LCA(KC_NO)
+
+// TODO: Language toggle buttons
+// TODO: https://emacs.stackexchange.com/questions/55994/unicode-input-from-keyboard-qmk-to-emacs
+#define EN_MODE KC_NO
+#define DA_MODE KC_NO
+
+// Misc keycodes
+#define KC_ KC_TRNS
+#define KC__ KC_NO
+#define ___X___ KC_NO
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    [_BASE] = LAYOUT_planck_grid(
-        KC_TAB,  KC_Q,    KC_W,   KC_E,    KC_R,  KC_T,   KC_Y,   KC_U,  KC_I,    KC_O,    KC_P,    KC_BSPC,
-        C_ESC,   KC_A,    KC_S,   KC_D,    KC_F,  KC_G,   KC_H,   KC_J,  KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        LS_CAPS, KC_Z,    KC_X,   KC_C,    KC_V,  KC_B,   KC_N,   KC_M,  KC_COMM, KC_DOT,  KC_SLSH, RS_ENT,
-        CTL_ALT, KC_LGUI, KC_APP, KC_LALT, LOWER, KC_SPC, KC_SPC, RAISE, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-        ),
+    // Default layer, based on ANSI QWERTY
+    [_QWERTY] = KC_KEYMAP(
+        TAB,  Q,      W,   E,    R,     T,   Y,   U,     I,    O,     P,       BSPC,
+        CESC, A,      S,   D,    F,     G,   H,   J,     K,    L,     SCLN,    QUOT,
+        LSFT, Z,      X,   C,    V,     B,   N,   M,     COMM, DOT,   SLSH,    SENT,
+        LGUI, NUMPAD, APP, LALT, LOWER, SPC, SPC, RAISE, RALT, GREEK, SYMBOLS, EMOJI
+    ),
 
-    [_LOWER] = LAYOUT_planck_grid(
-        C_DEL,   X(U_HALF),  X(U_SQRD),  X(U_EUR),  X(U_REG),   X(U_TM),   KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,      KC_AA,   C_BSPC,
-        KC_LCTL, X(U_ALPHA), X(U_SIGMA), X(U_DIFF), X(U_INT),   X(U_GRAD), KC_LEFT,  KC_DOWN,  KC_UP,    KC_RIGHT,    KC_AE,   X(U_MULT),
-        KC_LSFT, X(U_ARROW), X(U_CHI),   X(U_CR),   X(U_BLOCK), X(U_BETA), X(U_END), X(U_EMD), X(U_DEG), X(U_BULLET), KC_OE,   X(U_NOT),
-        _______, _______,    _______,    _______,   _______,    KC_ENT,    KC_ENT,   _______,  _______,  _______,     _______, _______
-        ),
+    // Lower layer, with a number row, arrow keys, and some shortcuts
+    [_LOWER] = KC_KEYMAP(
+        C_DEL, 1,   2,   3,    4,    5,   6,    7,    8,    9,     0, C_BSPC,
+        ,      C_A, C_S, LGUI, LALT, _,   LEFT, DOWN, UP,   RIGHT, _, ,
+        ,      C_Z, C_X, C_C,  C_V,  _,   HOME, PGDN, PGUP, END,   _, ,
+        ,      ,    ,    ,     ,     ENT, ENT,  ,     ,     ,      ,
+    ),
 
-    [_RAISE] = LAYOUT_planck_grid(
-        KC_ESC,  KC_EXLM, KC_AT,   KC_HASH,  KC_AMPR, KC_LBRC, KC_RBRC, KC_7,    KC_8, KC_9,    KC_EQL,  KC_DEL,
-        KC_LCTL, KC_CIRC, KC_DLR,  X(U_GBP), KC_PERC, KC_LPRN, KC_RPRN, KC_4,    KC_5, KC_6,    KC_PLUS, KC_ASTR,
-        KC_LSFT, KC_BSLS, KC_PIPE, KC_GRV,   KC_TILD, KC_LCBR, KC_RCBR, KC_1,    KC_2, KC_3,    KC_MINS, KC_UNDS,
-        _______, _______, _______, _______,  _______, KC_ENT,  KC_ENT,  _______, KC_0, KC_DOT,  KC_COMM, _______
-        ),
+    // Raise layer, with common symbols and Danish letters
+    [_RAISE] = KC_KEYMAP(
+        ESC, EXLM, AT,   LCBR, RCBR, PERC, AMPR, LT,   GT,   EQL,  AA,   DEL,
+        ,    CIRC, DLR,  LBRC, RBRC, HASH, ASTR, LPRN, RPRN, PLUS, AE,   OE,
+        ,    BSLS, PIPE, GRV,  TILD, QUOT, DQUO, COLN, UNDS, MINS, QUES, ,
+        ,    ,     ,     ,     ,     ENT,  ENT,  ,     ,     ,     ,
+    ),
 
-    [_ADJUST] = LAYOUT_planck_grid(
-        RESET,   KC_BTN1, KC_MS_U, KC_BTN2, RGB_TOG, RGB_HUD, RGB_HUI, KC_F7,   KC_F8,   KC_F9,   KC_F12,  UC_M_WC,
-        KC_LCTL, KC_MS_L, KC_MS_D, KC_MS_R, AU_TOG,  RGB_SAD, RGB_SAI, KC_F4,   KC_F5,   KC_F6,   KC_F11,  UC_M_MA,
-        KC_LSFT, KC_PSCR, KC_INS,  KC_CAPS, MU_TOG,  RGB_VAD, RGB_VAI, KC_F1,   KC_F2,   KC_F3,   KC_F10,  UC_M_LN,
-        _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
-        )
+    // Adjust layer, with mouse keys and board settings
+    [_ADJUST] = KEYMAP(
+        RESET,   KC_VOLU, KC_BRIU, EN_MODE, RGB_TOG, ___X___, KC_BTN4, KC_BTN1, KC_BTN2, KC_BTN5, ___X___, UC_M_WC,
+        _______, KC_VOLD, KC_BRID, DA_MODE, AU_TOG,  ___X___, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, ___X___, UC_M_MA,
+        _______, KC_PSCR, KC_INS,  KC_CAPS, MU_TOG,  ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, UC_M_LN,
+        _______, _______, KC_EXIT, _______, _______, KC_WHOM, KC_WHOM, _______, KC_MUTE, KC_MPRV, KC_MNXT, KC_MPLY
+    ),
 
+    // Numpad layer, with function keys and a numpad
+    [_NUMPAD] = KC_KEYMAP(
+        , F1, F2,   F3,  F4,  7, 8, 9, COLN, EQL,  CIRC, ,
+        , F5, F6,   F7,  F8,  4, 5, 6, MINS, PLUS, ASTR, ,
+        , F9, F10,  F11, F12, 1, 2, 3, ,     ,     ,     ,
+        , ,   EXIT,    ,    ,    0, 0, ,  ,     ,     ,
+    ),
+
+    // Greek layer, for entering Greek letters
+    [_GREEK] = KC_KEYMAP(
+        , THETA, OMEGA, EPSILON, RHO, TAU,   UPSILON, PSI, IOTA,  OMICRON, PI, ,
+        , ALPHA, SIGMA, DELTA,   PHI, GAMMA, ETA,     _,   KAPPA, LAMBDA,  ,   ,
+        , ZETA,  XI,    CHI,     _,   BETA,  NU,      MU,  ,      ,        ,   ,
+        , ,      EXIT,  ,        ,    ,      ,        ,    ,      ,        ,
+    ),
+
+    // Symbols layer, for entering special characters
+    [_SYMBOLS] = KC_KEYMAP(
+        , HALF,         SQUARED,      EURO,      REGISTERED, TRADEMARK, JPY,        UNION,      INFTY,    NEQ,         DEGREES,    ,
+        , INTERSECTION, SQRT,         PARTIAL,   INTEGRAL,   GRADIENT,  LEFT_ARROW, DOWN_ARROW, UP_ARROW, RIGHT_ARROW, TIMES,      EMPTY_SET,
+        , SOLID_BLOCK,  MEDIUM_BLOCK, COPYRIGHT, ELEMENT_OF, GBP,       EN_DASH,    EM_DASH,    NOT,      BULLET,      PLUS_MINUS, ,
+        , ,             EXIT,         ,          ,           ,          ,           ,           ,         ,            ,
+    ),
+
+    // Emoji layer, for inputting my favourite emoji
+    [_EMOJI] = KC_KEYMAP(
+        GRIN,        FLUSHED,    WEARY,   WINK,        ROLLING_EYES,   THINKING,    SHUSH,   CHECK,    POINT_RIGHT, EYES,     MONEY,    ,
+        SWEAT_SMILE, HEART_EYES, SOB,     WINK_KISS,   RAISED_EYEBROW, UPSIDE_DOWN, GRIMACE, WARNING,  OK_HAND,     BRAIN,    SPARKLES, SWEAT,
+        JOY,         ZANY,       PENSIVE, WINK_TONGUE, UNAMUSED,       POOP,        TRIUMPH, NO_ENTRY, CLAP,        B_BUTTON, HUNDRED,  HEARTS,
+        SMILE,       PLEADING,   EXIT,    SMIRK,       ,               ,            ,        ,         THUMBS_UP,   PRAY,     FIRE,
+    )
 };
 
-#ifdef AUDIO_ENABLE
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-#endif
-
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+  state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+  switch (get_highest_layer(state)) {
+    case _NUMPAD:
+    case _GREEK:
+    case _SYMBOLS:
+    case _EMOJI:
+      rgblight_setrgb(0x99, 0xF5, 0xFF);
+      break;
+    case _LOWER:
+      rgblight_setrgb(0x7A, 0xFF, 0x00);
+      break;
+    case _RAISE:
+      rgblight_setrgb(0xBD, 0x00, 0xFF);
+      break;
+    case _ADJUST:
+      rgblight_setrgb(0xFF, 0x7A, 0x00);
+      break;
+    default:
+      rgblight_setrgb(RGB_OFF);
+      break;
+  }
+  return state;
 }
 
 bool muse_mode = false;
@@ -222,8 +233,8 @@ void matrix_scan_user(void) {
 
 bool music_mask_user(uint16_t keycode) {
   switch (keycode) {
-    case RAISE:
-    case LOWER:
+    case KC_RAISE:
+    case KC_LOWER:
       return false;
     default:
       return true;
