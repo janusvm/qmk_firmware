@@ -129,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //     ,    ,     ,     ,     ,     ENT,  ENT,  ,     ,     ,     ,
     // ),
 
-    [_RAISE] = HRM_KEYMAP_kc(
+    [_RAISE] = KC_KEYMAP(
         EXLM, AT,   LCBR, RCBR, PERC, _, _, AMPR, LT,   GT,   EQL,  DQUO,
         CIRC, DLR,  LBRC, RBRC, HASH, _, _, ASTR, LPRN, RPRN, PLUS, QUOT,
         BSLS, PIPE, GRV,  SCLN, _,    _, _, _,    COLN, UNDS, MINS, QUES,
@@ -159,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //     , ,   EXIT, ,    ,    0, 0, ,  ,     _,    _,    _
     // ),
 
-    [_NUMPAD] = HRM_KEYMAP_kc(
+    [_NUMPAD] = HRM_L_KEYMAP_kc(
         F1,  F2,  F3, F4, F5,   _, _, COMM, 7,   8, 9, EQL,
         F6,  F7,  F8, F9, F10,  _, _, ASTR, 4,   5, 6, PLUS,
         F11, F12, _,  _,  PSCR, _, _, MINS, 1,   2, 3, SLSH,
