@@ -15,19 +15,20 @@ enum planck_layers {
     _ADJUST
 };
 
+// Keycodes
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   COLEMAK_DH
 };
 
 #define KC_EXIT    KC_NO
-#define KC_LOWER   MO(_LOWER)
-#define KC_RAISE   MO(_RAISE)
+#define KC_LOWER   LT(_LOWER, KC_SPC)
+#define KC_RAISE   LT(_RAISE, KC_BSPC)
 // #define KC_NUMPAD  OSL(_NUMPAD)
 // #define KC_GREEK   OSL(_GREEK)
 // #define KC_SYMBOLS OSL(_SYMBOLS)
 // #define KC_EMOJI   OSL(_EMOJI)
-#define KC_NUMSPC  LT(_NUMPAD, KC_SPC)
+#define KC_FNTAB   LT(_NUMPAD, KC_TAB)
 
 // Home row mod layouts
 #define HRM_KEYMAP_kc(                                          \
@@ -85,10 +86,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ),
 
     [_QWERTY] = HRM_KEYMAP_kc(
-        Q,    W,   E,    R,     T,      _,    _,    Y,    U,     I,    O,   P,
-        A,    S,   D,    F,     G,      _,    _,    H,    J,     K,    L,   DEL,
-        Z,    X,   C,    V,     B,      _,    _,    N,    M,     COMM, DOT, SLSH,
-        CAPS, APP, TAB,  LOWER, NUMSPC, SENT, SENT, BSPC, RAISE, ESC,  _,   _
+        Q, W, E,    R,     T,     _,   _,   Y,     U,   I,    O,   P,
+        A, S, D,    F,     G,     _,   _,   H,     J,   K,    L,   DEL,
+        Z, X, C,    V,     B,     _,   _,   N,     M,   COMM, DOT, SLSH,
+        _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   _
     ),
 
     // Default layer, based on ANSI Colemak-DHm
@@ -100,10 +101,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ),
 
     [_COLEMAK_DH] = HRM_KEYMAP_kc(
-        Q,    W,   F,    P,     B,      _,    _,    J,    L,     U,    Y,   DEL,
-        A,    R,   S,    T,     G,      _,    _,    M,    N,     E,    I,   O,
-        Z,    X,   C,    D,     V,      _,    _,    K,    H,     COMM, DOT, SLSH,
-        CAPS, APP, TAB,  LOWER, NUMSPC, SENT, SENT, BSPC, RAISE, ESC,  _,   _
+        Q,    W,   F,   P,     B,     _,   _,   J,     L,   U,    Y,   DEL,
+        A,    R,   S,   T,     G,     _,   _,   M,     N,   E,    I,   O,
+        Z,    X,   C,   D,     V,     _,   _,   K,     H,   COMM, DOT, SLSH,
+        _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   _
     ),
 
     // DEL layer, with a number row, arrow keys, and some shortcuts
@@ -115,10 +116,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ),
 
     [_LOWER] = HRM_L_KEYMAP_kc(
-        1,   2,   3,   4,   5,   _, _, PGUP,   HOME, UP,   END,   C_DEL,
-        6,   7,   8,   9,   0,   _, _, PGDN,   LEFT, DOWN, RIGHT, _,
-        C_Z, C_X, C_C, C_V, C_S, _, _, _,      AE,   OE,   AA,    _,
-        _,   _,   ,    ,    ,    ,  ,  C_BSPC, ,     ,     _,     _
+        1,   2,   3,   4,   5,   _,   _,   PGUP, HOME, UP,   END,   DEL,
+        6,   7,   8,   9,   0,   _,   _,   PGDN, LEFT, DOWN, RIGHT, _,
+        C_Z, C_X, C_C, C_V, C_S, _,   _,   _,    AE,   OE,   AA,    _,
+        _,   _,   ,    ,    ,    ENT, ENT, ,     ,     ,     _,     _
     ),
 
     // Raise layer, with common symbols and Danish letters
@@ -130,10 +131,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ),
 
     [_RAISE] = KC_KEYMAP(
-        EXLM, AT,   LCBR, RCBR, PERC, _, _, AMPR, LT,   GT,   EQL,  DQUO,
-        CIRC, DLR,  LBRC, RBRC, HASH, _, _, ASTR, LPRN, RPRN, PLUS, QUOT,
-        BSLS, PIPE, GRV,  SCLN, _,    _, _, _,    COLN, UNDS, MINS, QUES,
-        _,    _,    RALT, ,     TILD, ,  ,  ,     ,     ,     _,    _
+        EXLM, AT,   LCBR, RCBR, PERC, _,   _,   AMPR, LT,   GT,   DQUO, EQL,
+        CIRC, DLR,  LBRC, RBRC, HASH, _,   _,   ASTR, LPRN, RPRN, QUOT, PLUS,
+        BSLS, PIPE, GRV,  TILD, _,    _,   _,   _,    UNDS, SCLN, COLN, MINS,
+        _,    _,    LALT, LCTL, ,     ENT, ENT, , RALT,     ,     _,    _
     ),
 
     // Adjust layer, with mouse keys and board settings
@@ -159,11 +160,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //     , ,   EXIT, ,    ,    0, 0, ,  ,     _,    _,    _
     // ),
 
-    [_NUMPAD] = HRM_L_KEYMAP_kc(
-        F1,  F2,  F3, F4, F5,   _, _, COMM, 7,   8, 9, EQL,
-        F6,  F7,  F8, F9, F10,  _, _, ASTR, 4,   5, 6, PLUS,
-        F11, F12, _,  _,  PSCR, _, _, MINS, 1,   2, 3, SLSH,
-        _,   _,   ,   ,   ,     ,  ,  ,     DOT, 0, _, _
+    [_NUMPAD] = HRM_KEYMAP_kc(
+        F1,  F2,  F3, F4,   F5,  _, _, PSLS, P7,   P8, P9, PEQL,
+        F6,  F7,  F8, F9,   F10, _, _, PAST, P4,   P5, P6, PPLS,
+        F11, F12, _,  PSCR, _,   _, _, PCMM, P1,   P2, P3, PMNS,
+        _,   _,   ,   ,     ,    ,  ,  ,     PDOT, P0, _,  _
     )
 
     // Greek layer, for entering Greek letters
@@ -247,4 +248,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     }
     return true;
+}
+
+// Set per key tapping term to differentiate between strong and weak fingers
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_LOWER:
+        case KC_RAISE:
+            return 150;
+        case GUI_T(KC_A):
+        case GUI_T(KC_O):
+            return 250;
+        case ALT_T(KC_R):
+        case ALT_T(KC_I):
+            return 200;
+        default:
+            return TAPPING_TERM;
+    }
 }
