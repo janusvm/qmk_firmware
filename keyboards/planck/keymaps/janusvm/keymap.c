@@ -128,10 +128,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     // Numpad layer, with function keys and a numpad
+    // NB: EQL and COMM are used instead of their P* counterparts as the latter simply don't work for me
     [_NUMPAD] = HRM_KEYMAP_kc(
-        F1,  F2,  F3, F4,   F5,  _, _, PSLS, P7,   P8, P9, PEQL,
+        F1,  F2,  F3, F4,   F5,  _, _, PSLS, P7,   P8, P9, EQL,
         F6,  F7,  F8, F9,   F10, _, _, PAST, P4,   P5, P6, PPLS,
-        F11, F12, _,  PSCR, _,   _, _, PCMM, P1,   P2, P3, PMNS,
+        F11, F12, _,  PSCR, _,   _, _, COMM, P1,   P2, P3, PMNS,
         _,   _,   ,   ,     ,    ,  ,  ,     PDOT, P0, _,  _
     ),
 
