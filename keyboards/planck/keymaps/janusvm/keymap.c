@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "unicode.h"
+#include "tapdance.h"
 
 // Layers
 enum planck_layers {
@@ -9,7 +10,7 @@ enum planck_layers {
     // _SYMBOLS,
     // _GREEK,
     // _EMOJI,
-    // _CSP,
+    _CSP,
     _LOWER,
     _RAISE,
     _ADJUST
@@ -29,6 +30,7 @@ enum planck_keycodes {
 // #define KC_SYMBOLS OSL(_SYMBOLS)
 // #define KC_EMOJI   OSL(_EMOJI)
 #define KC_FNTAB   LT(_NUMPAD, KC_TAB)
+#define KC_CSP     TG(_CSP)
 
 // Home row mod layouts
 #define HRM_KEYMAP_kc(                                          \
@@ -68,7 +70,15 @@ LAYOUT_ortho_4x12( \
 #define KC_C_X    LCTL(KC_X)
 #define KC_C_C    LCTL(KC_C)
 #define KC_C_V    LCTL(KC_V)
+#define KC_C_N    LCTL(KC_N)
+#define KC_C_O    LCTL(KC_O)
+#define KC_C_W    LCTL(KC_W)
 #define KC_C_ALT  LCA(KC_NO)
+
+// Clip Studio Paint shortcuts
+#define KC_CSP_ZI LCTL(KC_EQL)  // Zoom in
+#define KC_CSP_ZO LCTL(KC_MINS) // Zoom out
+#define KC_CSP_ZF LCTL(KC_0)    // Fit to screen
 
 // Misc keycodes
 #define KC_ KC_TRNS
@@ -103,8 +113,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLEMAK_DH] = HRM_KEYMAP_kc(
         Q,    W,   F,   P,     B,     _,   _,   J,     L,   U,    Y,   DEL,
         A,    R,   S,   T,     G,     _,   _,   M,     N,   E,    I,   O,
-        Z,    X,   C,   D,     V,     _,   _,   K,     H,   COMM, DOT, SLSH,
-        _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   _
+        Z_CZ,    X_CX,   C_CC,   D_CV,     V,     _,   _,   K,     H,   COMM, DOT, SLSH,
+        _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   CSP
     ),
 
     // DEL layer, with a number row, arrow keys, and some shortcuts
@@ -165,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         F6,  F7,  F8, F9,   F10, _, _, PAST, P4,   P5, P6, PPLS,
         F11, F12, _,  PSCR, _,   _, _, PCMM, P1,   P2, P3, PMNS,
         _,   _,   ,   ,     ,    ,  ,  ,     PDOT, P0, _,  _
-    )
+    ),
 
     // Greek layer, for entering Greek letters
     // [_GREEK] = KC_KEYMAP(
@@ -191,19 +201,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //     SMILE,       PLEADING,   EXIT,    SMIRK,       ,               ,            ,        ,         THUMBS_UP,   PRAY,     FIRE,
     // ),
 
-    // // TODO Clip Studio Paint layer, for quick access to my most used tools and shortcuts
-    // [_CSP] = KC_KEYMAP(
-    //    ,,,,,,,,,,,,
-    //    ,,,,,,,,,,,,
-    //    ,,,,,,,,,,,,
-    //    ,,,,,,,,,,,
-    // )
+    // TODO Clip Studio Paint layer, for quick access to my most used tools and shortcuts
+    [_CSP] = KEYMAP(
+        C(KC_EQL),  C(KC_0),     KC_MINS,     KC_QUOT,     TD(CSP_M), KC_T,    KC_U,    KC_W,    KC_J,    KC_R,    ___X___, ___X___,
+        C(KC_MINS), ALT_T(KC_3), CTL_T(KC_2), SFT_T(KC_1), KC_G,      KC_P,    KC_B,    KC_E,    KC_I,    KC_H,    ___X___, ___X___,
+        C(KC_Z),    TD(X_CX),    TD(C_CC),    TD(CSP_F),   TD(CSP_K), KC_COMM, KC_DOT,  KC_0,    KC_Y,    KC_SLSH, ___X___, ___X___,
+        KC_PMNS,    KC_PPLS,     C(KC_T),     KC_TAB,      TD(CSP_L), C(KC_S), C(KC_S), C(KC_N), C(KC_O), C(KC_W), ___X___, TG(_CSP)
+    )
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
   switch (get_highest_layer(state)) {
     case _NUMPAD:
+    case _CSP:
     // case _GREEK:
     // case _SYMBOLS:
     // case _EMOJI:
