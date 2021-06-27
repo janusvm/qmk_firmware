@@ -87,14 +87,7 @@ LAYOUT_ortho_4x12( \
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    // Default layer, based on ANSI QWERTY
-    // [_QWERTY] = KC_KEYMAP(
-    //     TAB,   Q,      W,   E,    R,     T,   Y,   U,     I,    O,     P,       BSPC,
-    //     CESC,  A,      S,   D,    F,     G,   H,   J,     K,    L,     SCLN,    QUOT,
-    //     SCAPS, Z,      X,   C,    V,     B,   N,   M,     COMM, DOT,   SLSH,    SENT,
-    //     LGUI,  NUMPAD, APP, LALT, LOWER, SPC, SPC, RAISE, RALT, GREEK, SYMBOLS, EMOJI
-    // ),
-
+    // QWERTY layer, based on ANSI QWERTY
     [_QWERTY] = HRM_KEYMAP_kc(
         Q, W, E,    R,     T,     _,   _,   Y,     U,   I,    O,   P,
         A, S, D,    F,     G,     _,   _,   H,     J,   K,    L,   DEL,
@@ -102,29 +95,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   _
     ),
 
-    // Default layer, based on ANSI Colemak-DHm
-    // [_COLEMAK_DH] = KC_KEYMAP(
-    //     TAB,   Q,      W,   F,    P,     B,   J,   L,     U,    Y,     SCLN,    BSPC,
-    //     CESC,  GA,     AR,  CS,   ST,    G,   M,   SN,    CE,   AI,    GO,      QUOT,
-    //     SCAPS, Z,      X,   C,    D,     V,   K,   H,     COMM, DOT,   SLSH,    SENT,
-    //     LGUI,  NUMPAD, APP, LALT, LOWER, SPC, SPC, RAISE, RALT, GREEK, SYMBOLS, EMOJI
-    // ),
-
+    // COLEMAK-DH layer, based on ANSI Colemak-DHm
     [_COLEMAK_DH] = HRM_KEYMAP_kc(
-        Q,    W,   F,   P,     B,     _,   _,   J,     L,   U,    Y,   DEL,
-        A,    R,   S,   T,     G,     _,   _,   M,     N,   E,    I,   O,
-        Z_CZ,    X_CX,   C_CC,   D_CV,     V,     _,   _,   K,     H,   COMM, DOT, SLSH,
-        _, _, CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   CSP
+        Q,    W,    F,    P,     B,     _,   _,   J,     L,   U,    Y,   DEL,
+        A,    R,    S,    T,     G,     _,   _,   M,     N,   E,    I,   O,
+        Z_CZ, X_CX, C_CC, D_CV,  V,     _,   _,   K,     H,   COMM, DOT, SLSH,
+        _,    _,    CAPS, FNTAB, LOWER, SPC, SPC, RAISE, ESC, ENT,  _,   CSP
     ),
 
-    // DEL layer, with a number row, arrow keys, and some shortcuts
-    // [_LOWER] = KC_KEYMAP(
-    //     C_DEL, 1,   2,   3,    4,    5,   6,    7,    8,    9,     0, C_BSPC,
-    //     ,      C_A, C_S, LGUI, LALT, _,   LEFT, DOWN, UP,   RIGHT, _, ,
-    //     ,      C_Z, C_X, C_C,  C_V,  _,   HOME, PGDN, PGUP, END,   _, ,
-    //     ,      ,    ,    ,     ,     ENT, ENT,  ,     ,     ,      ,
-    // ),
-
+    // LOWER layer, for numbers, navigation and Danish characters
     [_LOWER] = HRM_L_KEYMAP_kc(
         1,   2,   3,   4,   5,   _,   _,   PGUP, HOME, UP,   END,   DEL,
         6,   7,   8,   9,   0,   _,   _,   PGDN, LEFT, DOWN, RIGHT, _,
@@ -132,29 +111,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _,   _,   ,    ,    ,    ENT, ENT, ,     ,     ,     _,     _
     ),
 
-    // Raise layer, with common symbols and Danish letters
-    // [_RAISE] = KC_KEYMAP(
-    //     ESC, EXLM, AT,   LCBR, RCBR, PERC, AMPR, LT,   GT,   EQL,  AA,   DEL,
-    //     ,    CIRC, DLR,  LBRC, RBRC, HASH, ASTR, LPRN, RPRN, PLUS, AE,   OE,
-    //     ,    BSLS, PIPE, GRV,  TILD, QUOT, DQUO, COLN, UNDS, MINS, QUES, ,
-    //     ,    ,     ,     ,     ,     ENT,  ENT,  ,     ,     ,     ,
-    // ),
-
+    // RAISE layer, for special characters
     [_RAISE] = KC_KEYMAP(
         EXLM, AT,   LCBR, RCBR, PERC, _,   _,   AMPR, LT,   GT,   DQUO, EQL,
         CIRC, DLR,  LBRC, RBRC, HASH, _,   _,   ASTR, LPRN, RPRN, QUOT, PLUS,
         BSLS, PIPE, GRV,  TILD, _,    _,   _,   _,    UNDS, SCLN, COLN, MINS,
-        _,    _,    LALT, LCTL, ,     ENT, ENT, , RALT,     ,     _,    _
+        _,    _,    LALT, LCTL, ,     ENT, ENT, ,     RALT, ,     _,    _
     ),
 
     // Adjust layer, with mouse keys and board settings
-    // [_ADJUST] = KEYMAP(
-    //     RESET,   KC_VOLU, KC_BRIU, QWERTY,     RGB_TOG, ___X___, KC_BTN4, KC_BTN1, KC_BTN2, KC_BTN5, ___X___, UC_M_WC,
-    //     _______, KC_VOLD, KC_BRID, COLEMAK_DH, AU_TOG,  ___X___, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, ___X___, UC_M_MA,
-    //     _______, KC_PSCR, KC_INS,  KC_CAPS,    ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, UC_M_LN,
-    //     _______, _______, KC_EXIT, _______,    _______, KC_WHOM, KC_WHOM, _______, KC_MUTE, KC_MPRV, KC_MNXT, KC_MPLY
-    // ),
-
     [_ADJUST] = KEYMAP(
         QWERTY,     ___X___, KC_BRIU, KC_VOLU, RGB_TOG, RESET,   UC_M_WC, ___X___, KC_BTN1, KC_MS_U, KC_BTN2, ___X___,
         COLEMAK_DH, ___X___, KC_BRID, KC_VOLD, AU_TOG,  DEBUG,   UC_M_MA, KC_BTN4, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN5,
@@ -163,13 +128,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     // Numpad layer, with function keys and a numpad
-    // [_NUMPAD] = KC_KEYMAP(
-    //     , F1, F2,   F3,  F4,  7, 8, 9, COLN, EQL,  CIRC, ,
-    //     , F5, F6,   F7,  F8,  4, 5, 6, MINS, PLUS, ASTR, ,
-    //     , F9, F10,  F11, F12, 1, 2, 3, ,     ,     ,     ,
-    //     , ,   EXIT, ,    ,    0, 0, ,  ,     _,    _,    _
-    // ),
-
     [_NUMPAD] = HRM_KEYMAP_kc(
         F1,  F2,  F3, F4,   F5,  _, _, PSLS, P7,   P8, P9, PEQL,
         F6,  F7,  F8, F9,   F10, _, _, PAST, P4,   P5, P6, PPLS,
@@ -201,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //     SMILE,       PLEADING,   EXIT,    SMIRK,       ,               ,            ,        ,         THUMBS_UP,   PRAY,     FIRE,
     // ),
 
-    // TODO Clip Studio Paint layer, for quick access to my most used tools and shortcuts
+    // Clip Studio Paint layer, for quick access to my most used tools and shortcuts
     [_CSP] = KEYMAP(
         C(KC_EQL),  C(KC_0),     KC_MINS,     KC_QUOT,     TD(CSP_M), KC_T,    KC_U,    KC_W,    KC_J,    KC_R,    ___X___, ___X___,
         C(KC_MINS), ALT_T(KC_3), CTL_T(KC_2), SFT_T(KC_1), KC_G,      KC_P,    KC_B,    KC_E,    KC_I,    KC_H,    ___X___, ___X___,
